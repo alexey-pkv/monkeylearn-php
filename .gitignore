@@ -1,5 +1,11 @@
 .php_cs.cache
+
+# Php Unit
 phpunit.xml
-composer.lock
-composer.phar
+
+# Composer
 vendor/*
+composer.phar
+
+# IDEs
+.idea

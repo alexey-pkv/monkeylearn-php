@@ -1,19 +1,17 @@
 <?php
 namespace MonkeyLearn;
 
-use MonkeyLearn\Config;
-use MonkeyLearn\MonkeyLearnResponse;
-use MonkeyLearn\HandleErrors;
-use MonkeyLearn\MonkeyLearnException;
 
-class Classification extends SleepRequests {
-    function __construct($token, $base_endpoint) {
+class Classification extends SleepRequests 
+{
+    public function __construct($token, $base_endpoint) 
+    {
         $this->token = $token;
         $this->endpoint = $base_endpoint.'classifiers/';
         $this->categories = new Categories($token, $base_endpoint);
     }
 
-    function classify($module_id, $sample_list, $sandbox=false,
+    public function classify($module_id, $sample_list, $sandbox=false,
                       $batch_size=Config::DEFAULT_BATCH_SIZE, $sleep_if_throttled=true) {
         HandleErrors::check_batch_limits($sample_list, $batch_size);
         $url = $this->endpoint.$module_id.'/classify/';
@@ -39,19 +37,19 @@ class Classification extends SleepRequests {
         return new MonkeyLearnResponse($res, $headers);
     }
 
-    function list_classifiers($sleep_if_throttled=true) {
+    public function list_classifiers($sleep_if_throttled=true) {
         $url = $this->endpoint;
         list($response, $header) = $this->make_request($url, 'GET', null, $sleep_if_throttled);
         return new MonkeyLearnResponse($response['result'], array($header));
     }
-
-    function detail($module_id, $sleep_if_throttled=true) {
+    
+    public function detail($module_id, $sleep_if_throttled=true) {
         $url = $this->endpoint.$module_id;
         list($response, $header) = $this->make_request($url, 'GET', null, $sleep_if_throttled);
         return new MonkeyLearnResponse($response['result'], array($header));
     }
-
-    function upload_samples($module_id, $samples_with_categories, $sleep_if_throttled=true,
+    
+    public function upload_samples($module_id, $samples_with_categories, $sleep_if_throttled=true,
                             $features_schema=null) {
         $url = $this->endpoint.$module_id.'/samples/';
         $data_samples = array();
@@ -86,25 +84,25 @@ class Classification extends SleepRequests {
         return new MonkeyLearnResponse($response['result'], array($header));
     }
 
-    function train($module_id, $sleep_if_throttled=true) {
+    public function train($module_id, $sleep_if_throttled=true) {
         $url = $this->endpoint.$module_id.'/train/';
         list($response, $header) = $this->make_request($url, 'POST', null, $sleep_if_throttled);
         return new MonkeyLearnResponse($response['result'], array($header));
     }
 
-    function deploy($module_id, $sleep_if_throttled=true) {
+    public function deploy($module_id, $sleep_if_throttled=true) {
         $url = $this->endpoint.$module_id.'/deploy/';
         list($response, $header) = $this->make_request($url, 'POST', null, $sleep_if_throttled);
         return new MonkeyLearnResponse($response['result'], array($header));
     }
 
-    function delete($module_id, $sleep_if_throttled=true) {
+    public function delete($module_id, $sleep_if_throttled=true) {
         $url = $this->endpoint.$module_id;
         list($response, $header) = $this->make_request($url, 'DELETE', null, $sleep_if_throttled);
         return new MonkeyLearnResponse($response['result'], array($header));
     }
 
-    function create($name, $description=null, $train_state=null, $language=null, $ngram_range=null,
+    public function create($name, $description=null, $train_state=null, $language=null, $ngram_range=null,
                $use_stemmer=null, $stop_words=null, $max_features=null, $strip_stopwords=null,
                $is_multilabel=null, $is_twitter_data=null, $normalize_weights=null,
                $classifier=null, $industry=null, $classifier_type=null,
@@ -142,13 +140,14 @@ class Classification extends SleepRequests {
     }
 }
 
-class Categories extends SleepRequests {
-    function __construct($token, $base_endpoint) {
+class Categories extends SleepRequests 
+{
+    public function __construct($token, $base_endpoint) {
         $this->token = $token;
         $this->endpoint = $base_endpoint.'classifiers/';
     }
 
-    function create($module_id, $name, $parent_id, $sleep_if_throttled=true) {
+    public function create($module_id, $name, $parent_id, $sleep_if_throttled=true) {
 
         $data = array(
             'name' => $name,
@@ -160,7 +159,7 @@ class Categories extends SleepRequests {
         return new MonkeyLearnResponse($response['result'], array($header));
     }
 
-    function edit($module_id, $category_id, $name=null, $parent_id=null,
+    public function edit($module_id, $category_id, $name=null, $parent_id=null,
                   $sleep_if_throttled=true) {
 
         $data = array(
@@ -179,7 +178,7 @@ class Categories extends SleepRequests {
         return new MonkeyLearnResponse($response['result'], array($header));
     }
 
-    function delete($module_id, $category_id, $samples_strategy=null,
+    public function delete($module_id, $category_id, $samples_strategy=null,
                     $samples_category_id=null, $sleep_if_throttled=true) {
 
         $data = array(
@@ -198,4 +197,3 @@ class Categories extends SleepRequests {
         return new MonkeyLearnResponse($response['result'], array($header));
     }
 }
-?>

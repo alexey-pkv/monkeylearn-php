@@ -6,6 +6,7 @@ class SleepRequests
 {
     public function parseHeaders($headers) {
         $head = array();
+        
         foreach( $headers as $k=>$v )
         {
             $t = explode( ':', $v, 2 );
@@ -20,6 +21,7 @@ class SleepRequests
                     $head['response_code'] = intval($out[1]);
             }
         }
+        
         return $head;
     }
 

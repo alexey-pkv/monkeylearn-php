@@ -13,12 +13,12 @@ class HandleErrors
         }
         
         if (!$text_list) {
-            throw new MonkeyLearnException("The text_list can't be empty.");
+            throw new MonkeyLearnException("The text_list can't be empty");
         }
         
         if (in_array('', $text_list)) {
             $firstPosition = array_search('', $text_list);
-            throw new MonkeyLearnException("You have an empty text in position {$firstPosition} in text_list.");
+            throw new MonkeyLearnException("You have an empty text in position {$firstPosition} in text_list");
         }
     }
 }

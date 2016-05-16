@@ -9,7 +9,7 @@ class Pipelines extends SleepRequests
         $this->endpoint = $base_endpoint.'pipelines/';
     }
     
-    public function run($module_id, $data, $sandbox=false, $sleep_if_throttled=true) {
+    public function run($module_id, $data, $sandbox = false, $sleep_if_throttled = true) {
         $url = $this->endpoint . $module_id . '/run/';
         
         if ($sandbox) {
